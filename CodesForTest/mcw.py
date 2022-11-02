@@ -93,8 +93,8 @@ df = pd.read_csv(f'D:\\OneDrive\\CryptoPro\\DataFromBinance{time}\\{coin}USDT{ti
 #df = pd.read_csv("FILUSDT-15m.csv")
 #df = pd.read_csv("FILUSDT-30m.csv")
 
-#df = df.set_index('Open Time')
-#df.index = pd.to_datetime(df.index)
+df = df.set_index('Open Time')
+df.index = pd.to_datetime(df.index)
 
 # %% [markdown]
 # Buying Selling Volume 
