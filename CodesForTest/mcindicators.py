@@ -1003,10 +1003,13 @@ def plotchart(df, FirstCandle, LastCandle, coin, time, colums=1, c=1, heights1=9
     fig.update_yaxes(title_text="Volatility", row=6, col=c)
 
     # Plot xWAD trace on 6nd row
-    fig.add_trace(go.Scatter(x=dfpl.index,
-                             y=dfpl.xWAD,
-                             line=dict(color='blue', width=1), showlegend=False
-                             ), row=7, col=c)
+    xWADcolors = ['green' if dfpl.xWAD[i] >=
+                  0 else 'red' for i in range(len(dfpl))]
+
+    fig.add_trace(go.Bar(x=dfpl.index,
+                         y=dfpl.xWAD,
+                         marker_color=xWADcolors, showlegend=False
+                         ), row=7, col=c)
 
     fig.add_trace(go.Scatter(x=dfpl.index,
                              y=dfpl['0'],
