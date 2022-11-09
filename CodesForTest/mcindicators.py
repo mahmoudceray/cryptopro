@@ -1281,7 +1281,7 @@ def plotchart(df, FirstCandle, LastCandle, coin, time, colums=1, c=1, heights1=9
     fig.show()
 
 
-def everythings(df, coin, interval, colums=1, c=1, heights1=9, heights2=3):
+def everythings(df, coin, interval, TimeDeviation, colums=1, c=1, heights1=9, heights2=3):
     df = pd.DataFrame()
     df = readdf(coin, interval, 'D:\\OneDrive\\CryptoPro')
     df = df.drop(['Close Time', 'Number of trades', 'Ignore'], axis=1)
@@ -1293,7 +1293,7 @@ def everythings(df, coin, interval, colums=1, c=1, heights1=9, heights2=3):
     df = VSA(df)
     df = SupportResistance(df, 55)
     df = candles(df)
-    df = LINEARREGCH(df, 1.8, 130)
+    df = LINEARREGCH(df, dev=TimeDeviation, shback=130)
     df = WaveTrend(df, n1=8, n2=21)
     df = pd.concat([df, WeisWaveVolume(df)], axis=1)
     levels(df)
