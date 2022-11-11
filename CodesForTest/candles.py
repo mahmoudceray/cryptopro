@@ -1,9 +1,23 @@
 import pandas as pd
+import numpy as np
 from warnings import simplefilter
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 # حساب الشمعات اليابانية و اضافتها الى ملف موجود
+
+  
+  
+def pointpos(x):
+    if x['pivot'] == 1:
+        return x['low']-1e-3
+    elif x['pivot']==2:
+        return x['high']+1e-3
+    else:
+        return np.nan
+
+#df['pointpos'] = df.apply(lambda row: pointpos(row), axis=1)
+#تجربة هذه الطريقة باضافة الاشارات
 
 
 def candles(df):
