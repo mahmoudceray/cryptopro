@@ -1,23 +1,24 @@
 import pandas as pd
 import numpy as np
+import pandas_ta as ta
 from warnings import simplefilter
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 # حساب الشمعات اليابانية و اضافتها الى ملف موجود
 
-  
-  
-def pointpos(x):
-    if x['pivot'] == 1:
-        return x['low']-1e-3
-    elif x['pivot']==2:
-        return x['high']+1e-3
-    else:
-        return np.nan
 
-#df['pointpos'] = df.apply(lambda row: pointpos(row), axis=1)
-#تجربة هذه الطريقة باضافة الاشارات
+def pointpos(dfcc):
+    for i in range(len(dfcc)):
+        if dfcc == -1:
+            return dfcc.Low-dfcc.ATR
+        elif dfcc == 1:
+            return dfcc.High+dfcc.ATR
+        else:
+            return np.nan
+
+
+# تجربة هذه الطريقة باضافة الاشارات
 
 
 def candles(df):
@@ -101,6 +102,83 @@ def candles(df):
     dfc.replace({False: 0.0, True: 1.0}, inplace=True)
     dfc.replace({-100: -1.0, 100: 1.0}, inplace=True)
     dfc.replace({-200: -1.0, 200: 1.0}, inplace=True)
+
+    # حساب مواقع الشمعات
+
+    # دوجيات
+    dfc['rickshawmanPP'] = pointpos(dfc.rickshawman)
+    dfc['spinningtopPP'] = pointpos(dfc.spinningtop)
+    dfc['shortlinePP'] = pointpos(dfc.shortline)
+    dfc['marubozuPP'] = pointpos(dfc.marubozu)
+    dfc['longleggeddojiPP'] = pointpos(dfc.longleggeddoji)
+    dfc['highwavePP'] = pointpos(dfc.highwave)
+    dfc['gravestonedojiPP'] = pointpos(dfc.gravestonedoji)
+    dfc['dragonflydojiPP'] = pointpos(dfc.dragonflydoji)
+    dfc['dojistarPP'] = pointpos(dfc.dojistar)
+    dfc['dojiPP'] = pointpos(dfc.doji)
+    dfc['closingmarubozuPP'] = pointpos(dfc.closingmarubozu)
+
+    # نماذج ايجابية انعكاسية قوية
+
+    # نماذج مميزة وقوية
+
+    dfc['hammerPP'] = pointpos(dfc.hammer)
+    dfc['piercingPP'] = pointpos(dfc.piercing)
+
+    # نماذج ايجابية عادية
+
+    dfc['invertedhammerPP'] = pointpos(dfc.invertedhammer)
+    dfc['counterattackPP'] = pointpos(dfc.counterattack)
+    dfc['homingpigeonPP'] = pointpos(dfc.homingpigeon)
+    dfc['matchinglowPP'] = pointpos(dfc.matchinglow)
+    dfc['morningdojistarPP'] = pointpos(dfc.morningdojistar)
+    dfc['morningstarPP'] = pointpos(dfc.morningstar)
+    dfc['unique3riverPP'] = pointpos(dfc.unique3river)
+    dfc['3insidePP'] = pointpos(dfc.3inside)
+    dfc['3starsinsouthPP'] = pointpos(dfc.3starsinsouth)
+    dfc['3whitesoldiersPP'] = pointpos(dfc.3whitesoldiers)
+    dfc['sticksandwichPP'] = pointpos(dfc.sticksandwich)
+    dfc['breakawayPP'] = pointpos(dfc.breakaway)
+    dfc['concealbabyswallPP'] = pointpos(dfc.concealbabyswall)
+
+
+    # نماذج سلبية انعكاسية قوية
+    # نماذج مميزة وقوية
+
+    dfc['hangingmanPP'] = pointpos(dfc.hammer)
+    dfc['darkcloudcoverPP'] = pointpos(dfc.darkcloudcover)
+    dfc['shootingstarPP'] = pointpos(dfc.shootingstar)
+    dfc['3outsidePP'] = pointpos(dfc.3outside)
+
+    # نماذج سلبية عادية
+
+    dfc['eveningdojistarPP'] = pointpos(dfc.eveningdojistar)
+    dfc['eveningstarPP'] = pointpos(dfc.eveningstar)
+    dfc['3blackcrowsPP'] = pointpos(dfc.3blackcrows)
+    dfc['identical3crowsPP'] = pointpos(dfc.identical3crows)
+    dfc['2crowsPP'] = pointpos(dfc.2crows)
+    dfc['upsidegap2crowsPP'] = pointpos(dfc.upsidegap2crows)
+    dfc['3insidePP'] = pointpos(dfc.3inside)
+    dfc['advanceblockPP'] = pointpos(dfc.advanceblock)
+    dfc['breakawayPP'] = pointpos(dfc.breakaway)
+    dfc['stalledpatternPP'] = pointpos(dfc.stalledpattern)
+
+    # نماذج مشتركة
+    # قوية
+    dfc['engulfingPP'] = pointpos(dfc.engulfing)
+    dfc['kickingPP'] = pointpos(dfc.kicking)
+    dfc['tristarPP'] = pointpos(dfc.tristar)
+    dfc['3outsidePP'] = pointpos(dfc.3outside)
+
+    # عادية
+    dfc['beltholdPP'] = pointpos(dfc.belthold)
+    dfc['haramiPP'] = pointpos(dfc.harami)
+    dfc['haramicrossPP'] = pointpos(dfc.haramicross)
+    dfc['abandonedbabyPP'] = pointpos(dfc.abandonedbaby)
+    dfc['ladderbottomPP'] = pointpos(dfc.ladderbottom)
+    dfc['hikkakePP'] = pointpos(dfc.hikkake)
+    dfc['hikkakemodPP'] = pointpos(dfc.hikkakemod)
+
 
     df = pd.concat([df, dfc], axis=1)
 

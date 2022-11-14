@@ -30,15 +30,16 @@ def getvolume(df):
 # حساب و تحليل الفوليوم و اضافتها الى ملف موجود
 
 
-def pointpos(x):
-    if x['pivot'] == 1:
-        return x['low']-1e-3
-    elif x['pivot'] == 2:
-        return x['high']+1e-3
-    else:
-        return np.nan
+def pointpos(dfcc):
+    for i in range(len(dfcc)):
+        if dfcc == -1:
+            return dfcc.Low-dfcc.ATR
+        elif dfcc == 1:
+            return dfcc.High+dfcc.ATR
+        else:
+            return np.nan
 
-#df['pointpos'] = df.apply(lambda row: pointpos(row), axis=1)
+
 # تجربة هذه الطريقة باضافة الاشارات
 
 
